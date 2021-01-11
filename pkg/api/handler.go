@@ -13,7 +13,8 @@ type MyHandler struct {
 func (h MyHandler) Get(w http.ResponseWriter, r *http.Request) {
 	ctx, xs := xray.BeginSubsegment(r.Context(), "MyHandler.Get")
 	h.useContext(ctx)
-	_ = xs.ParentSegment.AddAnnotation("method", "GET")
+	_ = xs.ParentSegment.AddAnnotation("parent_annotation", "GET")
+	_ = xs.AddAnnotation("method", "GET")
 	if h.succeed {
 		w.WriteHeader(http.StatusOK)
 	} else {
@@ -26,7 +27,8 @@ func (h MyHandler) Get(w http.ResponseWriter, r *http.Request) {
 func (h MyHandler) Post(w http.ResponseWriter, r *http.Request) {
 	ctx, xs := xray.BeginSubsegment(r.Context(), "MyHandler.Post")
 	h.useContext(ctx)
-	_ = xs.ParentSegment.AddAnnotation("method", "POST")
+	_ = xs.ParentSegment.AddAnnotation("parent_annotation", "POST")
+	_ = xs.AddAnnotation("method", "POST")
 	if h.succeed {
 		w.WriteHeader(http.StatusOK)
 	} else {
